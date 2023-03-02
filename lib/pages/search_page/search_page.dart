@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/big_texts.dart';
+import '../../widgets/small_texts.dart';
+
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
@@ -10,6 +13,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+    );
   }
 }
