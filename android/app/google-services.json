@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "843665882214",
+    "project_id": "happyeat-d2f8d",
+    "storage_bucket": "happyeat-d2f8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843665882214:android:7b4060bc7cba9c2122c1a7",
+        "android_client_info": {
+          "package_name": "com.example.happyeat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843665882214-l7lamqirs5eec205u293baommgal0hoa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkmixZ-GyO9t-8J7z8OE5EMaSV_qzQ8Eg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843665882214-l7lamqirs5eec205u293baommgal0hoa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "843665882214-42v0tmkkcgtvgfjacl3milrphdj8v6e8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.happyshow.happyeat"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843665882214:android:fd627f41947ab9c422c1a7",
+        "android_client_info": {
+          "package_name": "com.happyshow.happyeat_store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843665882214-l7lamqirs5eec205u293baommgal0hoa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkmixZ-GyO9t-8J7z8OE5EMaSV_qzQ8Eg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843665882214-l7lamqirs5eec205u293baommgal0hoa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "843665882214-42v0tmkkcgtvgfjacl3milrphdj8v6e8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.happyshow.happyeat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,8 @@ import 'package:happyeat/pages/homepage/util_page/grid_page_2.dart';
 import 'package:happyeat/utils/dimensions.dart';
 import 'package:happyeat/widgets/big_texts.dart';
 import 'package:happyeat/widgets/small_texts.dart';
+import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MainRestPage extends StatefulWidget {
   const MainRestPage({Key? key}) : super(key: key);
@@ -13,6 +15,8 @@ class MainRestPage extends StatefulWidget {
 }
 
 class _MainRestPageState extends State<MainRestPage> {
+
+  CollectionReference restaurants = FirebaseFirestore.instance.collection("restaurants");
 
   String _selectedValue = "가까운 순";
   String _selectedValue2 = "전체 거리";
@@ -114,48 +118,57 @@ class _MainRestPageState extends State<MainRestPage> {
         ),
 
         //list of restaurants
-        ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return Container(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 43),
-                      child: Row(
-                        children: [
-                          BigText(text: "맛깔 1987"),
-                          SizedBox(width: 20,),
-                          SmallText(text: "일식")
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.circle, color: Colors.red,),
-                          SizedBox(width: 10,),
-                          Text("영업 중", style: TextStyle(color: Colors.red),),
-                          SizedBox(width: 10,),
-                          SmallText(text: "10KM")
-                        ],
-                      ),
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(bottom: 10, left: 40, right: 10),
-                        height: 120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Dimensions.radius10*2),
+        StreamBuilder(
+            stream: restaurants.snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
+              return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+                    return GestureDetector(
+                      onTap: (){
+                      },
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 43),
+                              child: Row(
+                                children: [
+                                  BigText(text: documentSnapshot["name"]),
+                                  SizedBox(width: 20,),
+                                  SmallText(text: documentSnapshot["kind"])
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.circle, color: Colors.red,),
+                                  SizedBox(width: 10,),
+                                  Text("영업 중", style: TextStyle(color: Colors.red),),
+                                  SizedBox(width: 10,),
+                                  SmallText(text: "10KM")
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10, left: 40, right: 10),
+                              height: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(Dimensions.radius10*2),
+                              ),
+                              child: GridPage2(),
+                            )
+                          ],
                         ),
-                      child: GridPage2(),
-                    )
-                  ],
-                ),
-              );
+                      ),
+                    );
+                  });
             })
       ],
     );
