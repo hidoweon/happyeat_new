@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:happyeat/pages/homepage/main_rest_page.dart';
+import 'package:happyeat/pages/homepage/restaurant_page/main_rest_page.dart';
 import 'package:happyeat/pages/homepage/util_page/bottom_bar.dart';
 import 'package:happyeat/utils/dimensions.dart';
+
 
 class MainHomePage extends StatefulWidget {
   const MainHomePage({Key? key}) : super(key: key);
@@ -11,6 +13,9 @@ class MainHomePage extends StatefulWidget {
 }
 
 class _MainHomePageState extends State<MainHomePage> {
+
+  final _restaurants = FirebaseFirestore.instance.collection("restaurant").snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,10 +25,11 @@ class _MainHomePageState extends State<MainHomePage> {
             margin: EdgeInsets.only(
                 left: Dimensions.width10*2, top: Dimensions.height10,
                 bottom: Dimensions.height5*2, right: Dimensions.width10),
-            child: IconButton(
-              icon: Icon(Icons.location_on),
-              color: Colors.white,
-              onPressed: (){},)
+            child: GestureDetector(
+              onTap: (){
+
+              },
+              child: Icon(Icons.location_on),)
         ),
         title: Row(
           children: [

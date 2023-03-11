@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:happyeat/pages/homepage/main_home_page.dart';
+import 'package:happyeat/pages/homepage/util_page/bottom_bar.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MainHomePage()),
+        MaterialPageRoute(builder: (context) => MyBottomNavigationBar()),
       );
     });
   }

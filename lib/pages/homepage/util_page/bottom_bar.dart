@@ -3,6 +3,8 @@ import 'package:happyeat/pages/homepage/main_home_page.dart';
 import 'package:happyeat/pages/my_page/my_page.dart';
 import 'package:happyeat/pages/search_page/search_page.dart';
 import 'package:happyeat/pages/setting_page/setting_page.dart';
+import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
   @override

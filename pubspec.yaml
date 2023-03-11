@@ -40,6 +40,9 @@ dependencies:
   flutter_native_splash: ^2.2.18
   cloud_firestore: ^4.4.3
   firebase_core: ^2.7.0
+  location: ^4.4.0
+  flutter_naver_map: ^0.10.7
+  kakao_flutter_sdk_user: ^1.4.1
 
 dev_dependencies:
   flutter_test:

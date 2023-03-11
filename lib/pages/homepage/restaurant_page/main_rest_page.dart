@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:happyeat/pages/homepage/util_page/grid_page.dart';
-import 'package:happyeat/pages/homepage/util_page/grid_page_2.dart';
 import 'package:happyeat/utils/dimensions.dart';
 import 'package:happyeat/widgets/big_texts.dart';
 import 'package:happyeat/widgets/small_texts.dart';
@@ -16,7 +15,8 @@ class MainRestPage extends StatefulWidget {
 
 class _MainRestPageState extends State<MainRestPage> {
 
-  CollectionReference restaurants = FirebaseFirestore.instance.collection("restaurants");
+  final _restaurants = FirebaseFirestore.instance.collection("restaurant").snapshots();
+
 
   String _selectedValue = "가까운 순";
   String _selectedValue2 = "전체 거리";
@@ -119,14 +119,14 @@ class _MainRestPageState extends State<MainRestPage> {
 
         //list of restaurants
         StreamBuilder(
-            stream: restaurants.snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
+            stream: _restaurants,
+            builder: (context, snapshot){
               return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: streamSnapshot.data!.docs.length,
+                  itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
-                    final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+                    final DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
                     return GestureDetector(
                       onTap: (){
                       },
@@ -162,7 +162,37 @@ class _MainRestPageState extends State<MainRestPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(Dimensions.radius10*2),
                               ),
-                              child: GridPage2(),
+                              child: GridView.count(
+                                physics: NeverScrollableScrollPhysics(),
+                                crossAxisCount: 3,
+                                crossAxisSpacing: Dimensions.width10,
+                                padding: EdgeInsets.all(Dimensions.height5),
+                                shrinkWrap: true,
+
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(Dimensions.radius10),
+                                        color: Colors.grey
+                                    ),
+                                    child: Image.network(documentSnapshot["ImageUrl"].toString(),
+                                    fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(Dimensions.radius10),
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(Dimensions.radius10),
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             )
                           ],
                         ),
