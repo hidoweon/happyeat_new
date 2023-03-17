@@ -61,7 +61,7 @@ class DefaultFirebaseOptions {
     projectId: 'happyeat-d2f8d',
     storageBucket: 'happyeat-d2f8d.appspot.com',
     iosClientId: '843665882214-hd739mlfa0trvonebip5in8jn6982tgf.apps.googleusercontent.com',
-    iosBundleId: 'com.example.happyeat',
+    iosBundleId: 'com.HappyShow.FastEat',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -71,6 +71,6 @@ class DefaultFirebaseOptions {
     projectId: 'happyeat-d2f8d',
     storageBucket: 'happyeat-d2f8d.appspot.com',
     iosClientId: '843665882214-hd739mlfa0trvonebip5in8jn6982tgf.apps.googleusercontent.com',
-    iosBundleId: 'com.example.happyeat',
+    iosBundleId: 'com.HappyShow.FastEat',
   );
 }
