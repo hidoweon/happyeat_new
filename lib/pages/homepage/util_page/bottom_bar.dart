@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:happyeat/login/login.dart';
 import 'package:happyeat/pages/homepage/main_home_page.dart';
 import 'package:happyeat/pages/my_page/my_page.dart';
 import 'package:happyeat/pages/search_page/search_page.dart';
 import 'package:happyeat/pages/setting_page/setting_page.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:happyeat/login/kakao_login/view_model.dart';
+
+import '../../../login/kakao_login/kakao_login.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
   @override
@@ -13,15 +17,28 @@ class MyBottomNavigationBar extends StatefulWidget {
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
+  bool _isLoggedIn = false;
+  final viewModel = ViewModel(KakaoLogin());
+
+
 
   final List<Widget> _children = [
     MainHomePage(),
     SearchPage(),
-    MyPage(),
+    Login(),
     SettingPage()
-
-
   ];
+
+  @override
+  void initState(){
+    super.initState();
+    if(viewModel.isLogined == true){
+      _isLoggedIn = true;
+    }
+    if(_isLoggedIn == true){
+      _children[2] = MyPage();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +74,16 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   }
 
   void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    if (index == 2 && !_isLoggedIn) {
+      // If the user taps MyPage and is not logged in, switch to LoginPage
+      setState(() {
+        _children[2] = Login();
+        _currentIndex = 2;
+      });
+    } else {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
   }
 }

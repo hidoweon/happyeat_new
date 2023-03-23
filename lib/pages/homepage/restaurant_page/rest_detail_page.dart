@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:happyeat/controller/restaurant_controller.dart';
 import 'package:happyeat/pages/homepage/restaurant_page/menus/all_menu.dart';
 import 'package:happyeat/utils/dimensions.dart';
 import 'package:happyeat/widgets/big_texts.dart';
 import 'package:happyeat/widgets/small_texts.dart';
+import 'package:get/get.dart';
 
 import 'menus/main_menu.dart';
 
@@ -21,37 +23,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
 
   @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      setState(() {
-        _showAppBar = false;
-      });
-    } else {
-      setState(() {
-        _showAppBar = true;
-      });
-    }
-  }
-
-
-
-
-  @override
   Widget build(BuildContext context) {
+
+    final documentId = Get.arguments as String;
+    final restaurant = Get.find<RestaurantController>()
+        .restaurants.firstWhere((r) => r.name == documentId);
+
+    final mainmenu = restaurant.menu.where((item) => item.isMain).toList().length;
+
+
     return Scaffold(
       body: Column(
         children: [
@@ -138,7 +118,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                BigText(text: "호짜", size: 40,),
+                                BigText(text: restaurant.name, size: 40,),
                                 Container(
                                   child: Row(
                                     children: [
@@ -169,13 +149,13 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                     children: [
                                       Text("주소"),
                                       Expanded(child: SizedBox()),
-                                      Text("서울 마포구 동교동 162-13")
+                                      Text(restaurant.address)
                                     ],),
                                   Row(
                                     children: [
                                       Text("영업 시간"),
                                       Expanded(child: SizedBox()),
-                                      Text("15:00 - 24:00")
+                                      Text('${restaurant.hours}')
                                     ],),
                                   Row(
                                     children: [
@@ -278,7 +258,79 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         ],
                       ),
                     ),
-                    MainMenu(),
+                    ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: restaurant.menu.where((item) => item.isMain).toList().length,
+                        itemBuilder: (context, index){
+                          final item = restaurant.menu[index];
+                          final mainmenu = restaurant.menu.where((item) => item.isMain).toList()[index];
+                          return Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 150,
+                                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Row(
+                                    children: [
+
+                                      //음식 사진
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10, right: 10),
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(Dimensions.radius10),
+                                            color: Colors.grey,
+                                          image: DecorationImage(
+                                            image: NetworkImage(mainmenu.imageUrl),
+                                            fit: BoxFit.fill
+                                          )
+                                        ),
+                                      ),
+
+                                      //이름 및 가격
+                                      Container(
+                                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            BigText(text: item.name.toString()),
+                                            SmallText(text: mainmenu.des),
+                                            Expanded(child: SizedBox()),
+
+
+                                            //수량 확인
+                                            Container(
+                                              width: 180,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  BigText(text: mainmenu.price.toString()+'원'),
+                                                  Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.remove),
+                                                        SizedBox(width: 5,),
+                                                        BigText(text: "0"),
+                                                        SizedBox(width: 5,),
+                                                        Icon(Icons.add)
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }),
 
                     //all menu
                     Container(
@@ -289,7 +341,73 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         ],
                       ),
                     ),
-                    AllMenu(),
+                    ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: restaurant.menu.length,
+                        itemBuilder: (context, index){
+
+                          return Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 100,
+                                  width: Dimensions.screenWidth,
+                                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Row(
+                                    children: [
+
+                                      //음식 사진
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10, right: 10),
+                                        width: 180,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(Dimensions.radius10),
+                                            color: Colors.grey
+                                        ),
+                                      ),
+
+                                      //음식 이름 & 가격
+                                      Container(
+                                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            BigText(text: "모듬 사시미"),
+                                            SmallText(text: "계절에 따라 신선한 회가 제공됩니다."),
+                                            Expanded(child: SizedBox()),
+
+                                            //수량 확인
+                                            Container(
+                                              width: 180,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  BigText(text: "55,000원"),
+                                                  Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.remove),
+                                                        SizedBox(width: 5,),
+                                                        BigText(text: "0"),
+                                                        SizedBox(width: 5,),
+                                                        Icon(Icons.add)
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }),
 
                   ],
                 ),

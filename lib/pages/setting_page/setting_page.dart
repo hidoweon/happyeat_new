@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:happyeat/payment/import/kakaopay.dart';
 import 'package:happyeat/utils/dimensions.dart';
 import 'package:happyeat/widgets/big_texts.dart';
+import 'package:get/get.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -92,25 +94,30 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
             ),
-            Container(
-              height: 80,
-              width: Dimensions.screenWidth,
-              decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 0.5
-                  ))
-              ),
+            GestureDetector(
+              onTap: (){
+                Get.to(()=>KaKaoPayment());
+              },
               child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Row(
-                  children: [
-                    Icon(Icons.calendar_month, size: 30,),
-                    SizedBox(width: 20,),
-                    BigText(text: "약관 및 정책", size: 25),
-                    Expanded(child: SizedBox()),
-                    Icon(Icons.arrow_forward_ios)
-                  ],
+                height: 80,
+                width: Dimensions.screenWidth,
+                decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(
+                        color: Colors.grey,
+                        width: 0.5
+                    ))
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    children: [
+                      Icon(Icons.calendar_month, size: 30,),
+                      SizedBox(width: 20,),
+                      BigText(text: "약관 및 정책", size: 25),
+                      Expanded(child: SizedBox()),
+                      Icon(Icons.arrow_forward_ios)
+                    ],
+                  ),
                 ),
               ),
             ),
